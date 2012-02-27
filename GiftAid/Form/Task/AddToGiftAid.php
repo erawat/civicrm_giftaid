@@ -45,7 +45,9 @@ require_once 'CRM/Contribute/Form/Task.php';
 require_once 'CRM/Utils/String.php';
  
 class GiftAid_Form_Task_AddToGiftAid extends CRM_Contribute_Form_Task {
-
+	
+	protected $_id     = null;
+	
     /**
      * build all the data structures needed to build the form
      *
@@ -91,7 +93,7 @@ class GiftAid_Form_Task_AddToGiftAid extends CRM_Contribute_Form_Task {
                     $attributes['label'], true );
 
 		$this->addRule( 'title', ts('Label already exists in Database.'),
-						'objectExists', array( 'CRM_Core_DAO_Batch', $self->_id, 'label' ) );
+						'objectExists', array( 'CRM_Core_DAO_Batch', $this->_id, 'label' ) );
 		
 		$this->add( 'textarea', 'description', ts('Description:') . ' ', 
                     $attributes['description'] );
