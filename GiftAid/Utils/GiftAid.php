@@ -112,7 +112,8 @@ class GiftAid_Utils_GiftAid {
         }
 
         $declaration = self::getDeclaration( $contactID, $date, $charity );
-        $isEligible  = ( $declaration['eligible_for_gift_aid'] == 1 );
+		if (isset($declaration['eligible_for_gift_aid']))
+			$isEligible  = ( $declaration['eligible_for_gift_aid'] == 1 );
 
         // hook can alter the eligibility if needed
         GiftAid_Utils_Hook::giftAidEligible( $isEligible, $contactID, $date, $contributionID );
