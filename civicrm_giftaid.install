@@ -1,11 +1,6 @@
 <?php 
 function civicrm_giftaid_install() {
-  // Populate the default {variable} record.
-  db_insert('variable')
-    ->fields(array(
-    'name' => 'giftaid_value', 
-    'value' => 28,
-  ))
-    ->execute();
+  //setting the default value 
+  variable_set('giftaid_value', 28);
 }
 ?>
