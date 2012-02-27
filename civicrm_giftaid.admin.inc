@@ -21,10 +21,10 @@ function giftaid_form($form, &$form_state) {
 function giftaid_form_validate($form, &$form_state){
   $giftaid_value = $form_state['values']['giftaid_value'];
   if (!is_numeric($giftaid_value)){
-    form_set_error('giftaid_value', t('You must enter an integer for the maximum number of posts to display.'));
+    form_set_error('giftaid_value', t('You must enter an integer for the basic rate to calculate.'));
   }
   else if ($giftaid_value <= 0){
-    form_set_error('giftaid_value', t('Maximum number of posts to display must be positive.'));      
+    form_set_error('giftaid_value', t('The gift aid basic rate must be positive.'));      
   }
 }
 
