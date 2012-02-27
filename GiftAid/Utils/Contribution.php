@@ -222,10 +222,10 @@ gift_aid_amount = %6
         if ( empty( $contributionIds ) ) {
             return;
         }
-        $query = " SELECT contribution.id, contact.id contact_id, contact.display_name, contribution.total_amount, financial_account.name,
+        $query = " SELECT contribution.id, contact.id contact_id, contact.display_name, contribution.total_amount, contribution_type.name,
                           contribution.source, contribution.receive_date, batch.label FROM civicrm_contribution contribution
                    LEFT JOIN civicrm_contact contact ON ( contribution.contact_id = contact.id )
-                   LEFT JOIN civicrm_financial_account financial_account ON ( financial_account.id = contribution.financial_account_id )
+                   LEFT JOIN civicrm_contribution_type contribution_type ON ( contribution_type.id = contribution.contribution_type_id )
                    LEFT JOIN civicrm_entity_batch entity_batch ON ( entity_batch.entity_id = contribution.id ) 
                    LEFT JOIN civicrm_batch batch ON ( batch.id = entity_batch.batch_id ) 
                    WHERE contribution.id IN (" . implode(',', $contributionIds ) . ")" ;
