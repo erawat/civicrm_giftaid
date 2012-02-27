@@ -44,7 +44,7 @@ function civicrm_giftaid_menu() {
 
   $items['admin/config/system/gift-aid'] = array(
     'title' => 'Gift Aid Settings',
-    'description' => 'Configure Gift Aid Rate',
+    'description' => 'Configure Gift Aid Basic Rate',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('giftaid_form'),
     'access arguments' => array('access administration pages'),
