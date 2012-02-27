@@ -34,7 +34,37 @@
  *
  */
 
-class GiftAid_Utils_Hook {
+abstract class GiftAid_Utils_Hook {
+
+	static $_nullObject = null;
+
+    /**
+     * We only need one instance of this object. So we use the singleton
+     * pattern and cache the instance in this variable
+     *
+     * @var object
+     * @static
+     */
+    static private $_singleton = null;
+
+    
+    /**
+     * Constructor and getter for the singleton instance
+     * @return instance of $config->userHookClass
+     */
+    static function singleton( ) {
+        if (self::$_singleton == null) {
+            $config = CRM_Core_Config::singleton( );
+            $class = $config->userHookClass;
+            require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+            self::$_singleton = new $class();
+        }
+        return self::$_singleton;
+    }
+    
+    abstract function invoke( $numParams,
+                              &$arg1, &$arg2, &$arg3, &$arg4, &$arg5,
+                              $fnSuffix );
 
     /**
      * This hook allows filtering contributions for gift-aid
@@ -46,14 +76,15 @@ class GiftAid_Utils_Hook {
      * @access public
      */
     static function giftAidEligible( &$isEligible, $contactID, $date = null, $contributionID = null ) {
-        $config =& CRM_Core_Config::singleton( );
+		return self::singleton( )->invoke( 4, $isEligible, $contactID, $date, $contributionID, self::$_nullObject, 'civicrm_giftAidEligible' );
+        /*$config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         $null =& CRM_Core_DAO::$_nullObject;
 
         return
             eval( 'return ' .
                   $config->userHookClass .
-                  '::invoke( 4, $isEligible, $contactID, $date, $contributionID, $null , \'civicrm_giftAidEligible\' );' );
+                  '::invoke( 4, $isEligible, $contactID, $date, $contributionID, $null , \'civicrm_giftAidEligible\' );' );*/
     }
 
     /**
@@ -63,14 +94,15 @@ class GiftAid_Utils_Hook {
      * @access public
      */
     static function batchContributions( $batchID, $contributionsAdded ) {
-        $config =& CRM_Core_Config::singleton( );
+		return self::singleton( )->invoke( 2, $batchID, $contributionsAdded, self::$_nullObject, self::$_nullObject, self::$_nullObject, 'civicrm_batchContributions' );
+        /*$config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         $null =& CRM_Core_DAO::$_nullObject;
 
         return
             eval( 'return ' .
                   $config->userHookClass .
-                  '::invoke( 2, $batchID, $contributionsAdded, $null, $null, $null , \'civicrm_batchContributions\' );' );
+                  '::invoke( 2, $batchID, $contributionsAdded, $null, $null, $null , \'civicrm_batchContributions\' );' );*/
     }
 
     /**
@@ -81,13 +113,14 @@ class GiftAid_Utils_Hook {
      * @access public
      */
     static function alterDeclarationQuery( &$query, &$queryParams ) {
-        $config =& CRM_Core_Config::singleton( );
+		return self::singleton( )->invoke( 2, $query, $queryParams, self::$_nullObject, self::$_nullObject, self::$_nullObject, 'civicrm_alterDeclarationQuery' );
+        /*$config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         $null =& CRM_Core_DAO::$_nullObject;
 
         return
             eval( 'return ' .
                   $config->userHookClass .
-                  '::invoke( 2, $query, $queryParams, $null, $null, $null , \'civicrm_alterDeclarationQuery\' );' );
+                  '::invoke( 2, $query, $queryParams, $null, $null, $null , \'civicrm_alterDeclarationQuery\' );' );*/
     }
 }
