@@ -149,10 +149,11 @@ gift_aid_amount = %6
 	this function calculate the gift aid amount
 	formula used is: (basic rate of year*contributed amount)/(100-basic rate of year)
 	*/
-	function _calculateGiftAidAmt( $contributionAmount )
-	{
-		$basicRate	= 20;
-		return (( $basicRate * $contributionAmount ) / ( 100- $basicRate ));
+	function _calculateGiftAidAmt( $contributionAmount ){	
+		$basicRate = variable_get('giftaid_value');
+    return (($contributionAmount * $basicRate) / 100);
+    //$basicRate	= 20;
+		//return (( $basicRate * $contributionAmount ) / ( 100- $basicRate ));
 	}
 
 	/*
