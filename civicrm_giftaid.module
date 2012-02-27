@@ -62,6 +62,57 @@ function civicrm_giftaid_civicrm_searchTasks( $objectType, &$tasks ) {
     }
 }
 
+
+/*
+ * Implementation of hook_civicrm_custom
+ * Create / update Gift Aid declaration records on Individual when
+ * "Eligible for Gift Aid" field on Contribution is updated.
+ */
+function civicrm_giftaid_civicrm_custom( $op, $groupID, $entityID, &$params ) {
+    if ( $op != 'create' /* TODO && $op != 'edit' */ ) {
+        return;
+    }
+
+    require_once 'CRM/Core/DAO.php';
+    $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $groupID, 'table_name', 'id' );
+    if ( $tableName == 'civicrm_value_gift_aid_submission' ) {
+        // Iterate through $params to get new declaration value
+        $newStatus = NULL;
+        if ( !is_array($params) || empty($params) ) {
+            return;
+        }
+
+        foreach ( $params as $field ) {
+            if ( $field['column_name'] == 'eligible_for_gift_aid' ) {
+                $newStatus = $field['value'];
+                break;
+            }
+        }
+
+        if ( is_null( $newStatus ) ) {
+            return;
+        }
+
+        // Get contactID.
+        $sql = "SELECT contact_id, receive_date FROM civicrm_contribution WHERE id = %1";
+        $dao = CRM_Core_DAO::executeQuery( $sql, array( 1 => array($entityID, 'Integer') ) );
+        if ( $dao->fetch() ) {
+            $contactID        = $dao->contact_id;
+            $contributionDate = $dao->receive_date;
+        }
+
+        if ( $contactID ) {
+            require_once 'GiftAid/Utils/GiftAid.php';
+            $params = array(
+                'entity_id'             => $contactID,
+                'eligible_for_gift_aid' => $newStatus,
+                'start_date'            => $contributionDate,
+            );
+            GiftAid_Utils_GiftAid::setDeclaration( $params );
+        }
+    }
+}
+
 /*
  * Implementation of hook_civicrm_validate
  * Validate set of Gift Aid declaration records on Individual,
