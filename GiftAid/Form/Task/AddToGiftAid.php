@@ -91,7 +91,7 @@ class GiftAid_Form_Task_AddToGiftAid extends CRM_Contribute_Form_Task {
                     $attributes['label'], true );
 
 		$this->addRule( 'title', ts('Label already exists in Database.'),
-						'objectExists', array( 'CRM_Core_DAO_Batch', $this->_id, 'label' ) );
+						'objectExists', array( 'CRM_Core_DAO_Batch', $self->_id, 'label' ) );
 		
 		$this->add( 'textarea', 'description', ts('Description:') . ' ', 
                     $attributes['description'] );
