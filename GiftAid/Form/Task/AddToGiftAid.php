@@ -76,6 +76,7 @@ class GiftAid_Form_Task_AddToGiftAid extends CRM_Contribute_Form_Task {
 	}
 	
 	
+	
     /**
      * Build the form
      *
@@ -89,8 +90,8 @@ class GiftAid_Form_Task_AddToGiftAid extends CRM_Contribute_Form_Task {
                     ts('Batch Label'),
                     $attributes['label'], true );
 
-		//$this->addRule( 'title', ts('Label already exists in Database.'),
-		//				'objectExists', array( 'CRM_Core_DAO_Batch', $this->_id, 'label' ) );
+		$this->addRule( 'title', ts('Label already exists in Database.'),
+						'objectExists', array( 'CRM_Core_DAO_Batch', $this->_id, 'label' ) );
 		
 		$this->add( 'textarea', 'description', ts('Description:') . ' ', 
                     $attributes['description'] );
@@ -100,31 +101,8 @@ class GiftAid_Form_Task_AddToGiftAid extends CRM_Contribute_Form_Task {
                            '%2' => 		date('H:i:s')
 		);
         $this->setDefaults( $defaults );
-        
-		$this->addFormRule( array( 'GiftAid_Form_Task_AddToGiftAid', 'formRule' ) , $this );
-		
+                           
 		$this->addDefaultButtons( ts('Add to batch') );
-    }
-
-	/**
-     * global form rule
-     *
-     * @param array $fields  the input form values
-     *
-     * @return true if no errors, else array of errors
-     * @access public
-     * @static
-     */
-    static function formRule( $fields, $files, $self ) {
-
-        $errors = array( );
-        
-		$batchName = CRM_Utils_String::munge($fields['label']);
-		
-        if ( !CRM_Core_DAO::objectExists($batchName, 'CRM_Core_DAO_Batch', $self->_id) ) {
-            $errors['label'] = ts( 'Label already exists in Database.');
-        }
-        return empty( $errors ) ? true : $errors;
     }
    
     /**
