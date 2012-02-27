@@ -76,15 +76,7 @@ abstract class GiftAid_Utils_Hook {
      * @access public
      */
     static function giftAidEligible( &$isEligible, $contactID, $date = null, $contributionID = null ) {
-		return self::singleton( )->invoke( 4, $isEligible, $contactID, $date, $contributionID, self::$_nullObject, 'civicrm_giftAidEligible' );
-        /*$config =& CRM_Core_Config::singleton( );
-        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
-        $null =& CRM_Core_DAO::$_nullObject;
-
-        return
-            eval( 'return ' .
-                  $config->userHookClass .
-                  '::invoke( 4, $isEligible, $contactID, $date, $contributionID, $null , \'civicrm_giftAidEligible\' );' );*/
+		return self::singleton( )->invoke( 4, $isEligible, $contactID, $date, $contributionID, self::$_nullObject, 'civicrm_giftAidEligible' );       
     }
 
     /**
@@ -95,14 +87,6 @@ abstract class GiftAid_Utils_Hook {
      */
     static function batchContributions( $batchID, $contributionsAdded ) {
 		return self::singleton( )->invoke( 2, $batchID, $contributionsAdded, self::$_nullObject, self::$_nullObject, self::$_nullObject, 'civicrm_batchContributions' );
-        /*$config =& CRM_Core_Config::singleton( );
-        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
-        $null =& CRM_Core_DAO::$_nullObject;
-
-        return
-            eval( 'return ' .
-                  $config->userHookClass .
-                  '::invoke( 2, $batchID, $contributionsAdded, $null, $null, $null , \'civicrm_batchContributions\' );' );*/
     }
 
     /**
@@ -114,13 +98,5 @@ abstract class GiftAid_Utils_Hook {
      */
     static function alterDeclarationQuery( &$query, &$queryParams ) {
 		return self::singleton( )->invoke( 2, $query, $queryParams, self::$_nullObject, self::$_nullObject, self::$_nullObject, 'civicrm_alterDeclarationQuery' );
-        /*$config =& CRM_Core_Config::singleton( );
-        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
-        $null =& CRM_Core_DAO::$_nullObject;
-
-        return
-            eval( 'return ' .
-                  $config->userHookClass .
-                  '::invoke( 2, $query, $queryParams, $null, $null, $null , \'civicrm_alterDeclarationQuery\' );' );*/
     }
 }
