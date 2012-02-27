@@ -42,6 +42,8 @@ require_once 'CRM/Contribute/Form/Task.php';
  * addition of contacts to groups.
  */
 
+require_once 'CRM/Utils/String.php';
+ 
 class GiftAid_Form_Task_AddToGiftAid extends CRM_Contribute_Form_Task {
 
     /**
@@ -117,7 +119,9 @@ class GiftAid_Form_Task_AddToGiftAid extends CRM_Contribute_Form_Task {
 
         $errors = array( );
         
-        if ( !CRM_Core_DAO::objectExists($contactName, 'CRM_Core_DAO_Batch', $self->_id) ) {
+		$batchName = CRM_Utils_String::munge($fields['label']);
+		
+        if ( !CRM_Core_DAO::objectExists($batchName, 'CRM_Core_DAO_Batch', $self->_id) ) {
             $errors['label'] = ts( 'Label already exists in Database.');
         }
         return empty( $errors ) ? true : $errors;
