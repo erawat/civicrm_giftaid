@@ -52,8 +52,12 @@ function civicrm_giftaid_menu() {
     'file' => 'civicrm_giftaid.admin.inc',
   ); 
   return $items;
-} 
+}
 
+
+function civicrm_giftaid_civicrm_xmlMenu( &$files ) {
+    $files[] = dirname(__FILE__)."/menu.xml";
+}
 
 function civicrm_giftaid_civicrm_config( &$config ) {
     $template =& CRM_Core_Smarty::singleton( );
